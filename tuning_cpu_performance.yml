@@ -1,0 +1,14 @@
+---
+- name: Tuning CPU Performance
+  hosts: app
+  gather_facts: yes
+  become: yes
+
+  tasks:
+    - name: Set Priority for App Services
+      shell: |
+        nice -n -20 <command>
+
+    - name: Balance CPU Usage for App Services
+      shell: |
+        taskset -c 0-3 <command>

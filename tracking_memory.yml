@@ -1,0 +1,26 @@
+---
+- name: Monitor Memory Usage
+  hosts: all
+  gather_facts: yes
+  become: yes
+
+  tasks:
+    - name: Check Memory Parameters for App Servers
+      when: "'app' in group_names"
+      shell: |
+        echo "Page Size: $(getconf PAGESIZE)"
+        echo "Dirty Ratio: $(cat /proc/sys/vm/dirty_ratio)"
+        echo "Dirty Expire Centisecs: $(cat /proc/sys/vm/dirty_expire_centisecs)"
+        echo "Dirty Writeback Centisecs: $(cat /proc/sys/vm/dirty_writeback_centisecs)"
+        echo "nr_pdflush Threads: $(cat /proc/sys/vm/nr_pdflush_threads)"
+        echo "Overcommit Ratio: $(cat /proc/sys/vm/overcommit_ratio)"
+
+    - name: Check Memory Parameters for Database Servers
+      when: "'database' in group_names"
+      shell: |
+        echo "Page Size: $(getconf PAGESIZE)"
+        echo "Dirty Ratio: $(cat /proc/sys/vm/dirty_ratio)"
+        echo "Dirty Expire Centisecs: $(cat /proc/sys/vm/dirty_expire_centisecs)"
+        echo "Dirty Writeback Centisecs: $(cat /proc/sys/vm/dirty_writeback_centisecs)"
+        echo "nr_pdflush Threads: $(cat /proc/sys/vm/nr_pdflush_threads)"
+        echo "Overcommit Ratio: $(cat /proc/sys/vm/overcommit_ratio)"

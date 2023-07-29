@@ -1,0 +1,31 @@
+---
+- name: Monitor System Performance
+  hosts: all
+  gather_facts: yes
+  become: yes
+
+  tasks:
+    - name: Show System Load Average
+      shell: uptime
+      register: load_avg
+
+    - name: Show Process with Highest CPU Utilization
+      shell: ps -eo pid,ppid,cmd,%cpu,%mem --sort=-%cpu | head
+      register: cpu_utilization
+
+    - name: Show CPU Wait Time
+      shell: vmstat 1 5 | tail -1 | awk '{print $16}'
+      register: cpu_wait_time
+
+    - name: Show Load Balancing
+      shell: mpstat -P ALL | awk '{print $2" "$11}' | tail -n +4
+      register: load_balancing
+
+    - name: Display Results
+      debug:
+        msg: "{{ item.stdout }}"
+      with_items:
+        - "{{ load_avg }}"
+        - "{{ cpu_utilization }}"
+        - "{{ cpu_wait_time }}"
+        - "{{ load_balancing }}"

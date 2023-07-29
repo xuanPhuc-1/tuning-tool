@@ -1,0 +1,21 @@
+---
+- name: Tuning Memory Performance
+  hosts: all
+  gather_facts: yes
+  become: yes
+
+  tasks:
+    - name: Set swappiness to 10
+      sysctl:
+        name: vm.swappiness
+        value: 10
+
+    - name: Set dirty_ratio to 20
+      sysctl:
+        name: vm.dirty_ratio
+        value: 20
+
+    - name: Set page size to 2KB
+      sysctl:
+        name: vm.page_size
+        value: 2048

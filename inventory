@@ -1,0 +1,5 @@
+[ubuntu]
+ubuntu-server ansible_host=192.168.28.128 ansible_user=xp ansible_password=a
+
+[centos]
+centos-server ansible_host=192.168.28.129 ansible_user=xp ansible_password=a
